@@ -1,0 +1,77 @@
+
+|--------------------------------------------------------------------------------|
+|       REPLACEMENT SELECTION SORT TIME ANALYSIS                                 |
+|--------------------------------------------------------------------------------|
+| Replacement selection sort execution time for creating ' 12482' sorted  files  |
+| from '100000' data: "(     1559 msecs )"                                       |
+|           Calculating time complexity:                                         |
+|               T(n) = O(n lg n)                                                 |
+|                    = O(100000 lg 100000)                                       |
+|                    = 1.66 ≊ 1559 msecs                                         |
+|--------------------------------------------------------------------------------|
+|    Using N-Way merge n being the number of sorted files:                       |
+|        F1:--------------\___                                                   |
+|            F2:---------------\__                                               |
+|                F3:------------------- Final Sorted File                        |  
+|            F4:---------------/                                                 |
+|        F5:--------------/                                                      |
+|    ONLY NEEDS READS ONCE! Even with Memory size of 3.                          |
+|--------------------------------------------------------------------------------|
+| T = 9, M = 3, (n * M) <= file data(T), n = ceil(T/M), n = number of files.     |
+|--------------------------------------------------------------------------------|
+| D B G F A H C I E    |   F A H C I E     |   F A H C I E    |   A H C I E      |
+| Initial read:        |   build heap:     |   get min:       |   get next:      |
+|            D         |        B          |       [B]        |        F         |  
+|        B       G     |    D       G      |    D       G     |    D       G     |      
+|                      |                   |                  |                  |
+| F1[]                 |   F1[]            |   F1[]           |   F1[B]          |
+|----------------------|-------------------|------------------|------------------|
+| Since A < D,         |   A H C I E       |   A H C I E      |   H C I E        |
+| hold A in unprocess. |   build heap:     |   get min:       |   get next:      |
+| (heapsize - 1)       |         D         |       [D]        |        A         |
+|                      |     F       G     |    F       G     |    F       G     |
+| (get next)           |                   |                  |                  |
+|                      |    F1[B]          |   F1[B]          |    F1[B,D]       |
+|----------------------|-------------------|------------------|------------------|
+| build heap:          |   H C I E         |   H C I E        |   C I E          |
+|   -linear time       |   build heap:     |   get min:       |   get next:      |
+| get min:             |         F   _     |       [F]  _     |         H    _   |
+|    - O(lg(n)),       |     G      /A     |    G      /A     |     G       /A   |
+|    but since on top  |                   |                  |                  |
+|    it is constant.   |   F1[B,D]         |   F1[B,D]        |   F1[B,D,F]      |
+|----------------------|-------------------|------------------|------------------|
+|                      |   C I E           |   C I E          |   C I E          |
+|                      |   build heap:     |   get min:       |   get next:      |
+|                      |         G   _     |       [G]   _    |         C    _   |
+|                      |     H      /A     |    H       /A    |     H       /A   |
+|                      |                   |                  |                  |
+|                      |   F1[B,D,F]       |   F1[B,D,F]      |   F1[B,D,F,G]    |
+|----------------------|-------------------|------------------|------------------|
+| Since C < G,         |   I E             |   I E            |   I E            |
+| hold C in unprocess. |   build heap:     |   get min:       |   get next:      |
+| (heapsize - 1)       |      _  H   _     |     _  [H]  _    |      _  I   _    |
+|                      |     /C     /A     |    /C      /A    |     /C     /A    |
+| (get next)           |                   |                  |                  |
+|                      |   F1[B,D,F,G]     |   F1[B,D,F,G]    |   F1[B,D,F,G]    |
+|----------------------|-------------------|------------------|------------------|
+| Since E < I,         |   E               |   E              |                  |
+| hold E in unprocess. |   build heap:     |   get min:       |   get next:      |
+| (heapsize - 1)       |      _   I  _     |     _  [I] _     |      _  /E  _    |
+|                      |     /C     /A     |    /C      /A    |     /C     /A    |
+| (get next)           |                   |                  |                  |
+|                      |  F1[B,D,F,G]      |  F1[B,D,F,G]     |  F1[B,D,F,G,I]   |
+|----------------------|-------------------|------------------|------------------|
+|    H[E,C,A]          |   []              |   []             |   []             |
+|                      |   build heap:     |   get min:       |   get next:      |
+|        E             |         A         |        [A]       |                  |
+|    C       A         |     C       E     |     C       E    |     C      E     |
+|                      |                   |                  |                  |
+|                      |   F2[]            |   F2[]           |   F2[A]          |
+|----------------------|-------------------|------------------|------------------|
+| Since there is no    |                   |                  |                  |
+| more data to read,   | if (lc > rc)      |  Heap[null,C,E]  |  H[null,C,E]     |
+| shift to heap arr    | swap(h[i],h[size])|  Shift position  |  H[j+1]->H[C,E]  |      
+| and add to           |                   |  F2[i]<-H[j+1]|  |  F2[i]<-H[C,E]   | 
+| F1[B,D,F,G,I]        |                   |                  |  F2[A,C,E]       |
+| F2[A,C,E]            |                   |                  |                  |
+----------------------------------------------------------------------------------

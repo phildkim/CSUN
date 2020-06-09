@@ -1,0 +1,63 @@
+BIG O NOTATION & TIME ANALYSIS (execution report): 
+    -----------------------------------------------------------------------------------------------        
+    | Algorithms  |      Best(Time)       |   Average(Time)    |   Worst(Time)   |   Worst(Space) |
+    -----------------------------------------------------------------------------------------------
+    | Mergesort:  |      Omega(n log(n))  |   Theta(n log(n))  |   O(n log(n))   |   O(n)         |
+    -----------------------------------------------------------------------------------------------
+    | Heapsort:   |      Omega(n log(n))  |   Theta(n log(n))  |   O(n log(n))   |   O(1)         |
+    -----------------------------------------------------------------------------------------------
+
+          
+                
+
+
+1. twoWayMerge: 
+    T ( N = 159238 ) = Big O ( 24 msec )
+    T ( N = 822865 ) = Big O ( 92 msec )
+    T ( N = 822865 ) = Big O ( 95 msec )
+      
+    Omega, Theta, Delta:  T (n) = T(n/2) + T(n/2) + a(n); i <= a(n) <= n-1
+    Recurrence: T(n) = 2T(n/2) + n; T(1) = 0
+    For n = 2^m, T(2^m) = 2T(2^(m-1)) + 2^m
+    T(2^m) = 2T(2^(m-1)) + 2^m -> T(2^m) - 2T(2^(m-1))           
+    ....
+    T(2^1) = 2T(2^0) + 2^1 -> 2^(m-1)T(2^1) - 2^m*T(2^0) = 2^m 
+           = 2^M
+    So, T(n)=nlgn
+
+        T(n) = 2T(n/2) + O(n), if n > 1
+        T(n) = 2T(n/2) + cn
+                cn                  height = lg n
+              /     \ 
+      T(cn/2)         T(cn/2)
+         /              \
+  T(cn/4) 1..............n  T(cn/4) 
+        total = cn lg n + cn
+
+2. kWayMerge: 
+    T ( N = 159238 ) = Big O ( 19 msec )
+    T ( N = 822865 ) = Big O ( 73 msec )
+    T ( N = 822865 ) = Big O ( 70 msec )
+
+    Running time:
+    T(n) = Sigma {i=0..lg(n)} * ceil(n/2^(h+1)) * O(h)
+         = O(n * Sigma {i=0..lg(n)} * h/2^h )
+
+    log(n-1)! >= log(n-1/2) + .. + lg(n-1) >= n-1/2 * log(n-1/2)
+              = Delta(nlgn)
+
+    At most ceil(n/2^(h+1))
+                cn                      h=2
+              /     \ 
+      T(cn/2)         T(cn/2)           h=1
+         /              \
+  T(cn/4) 1..............n  T(cn/4)     h=0
+        total = cn lg n + cn
+    
+    = Sigma{i=0..lg(n)} * h/2^h}
+    = c/2*n*(1/2 + 2/4 + 3/8 + ..)
+    Worst-case running time is Omega(n);
+
+    - buildheap takes O(n).
+    - heapup takes O(log n).
+    - So, worse case it takes O(n lg n). 

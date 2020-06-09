@@ -1,0 +1,35 @@
+35
+if 3 
+then 4 
+else 2 
+while 5 
+for 7 
+case 2 
+switch 4 
+main 1 
+public 1 
+void 3 
+int 3 
+double 3
+char 2
+string 3
+class 2
+private 4
+try 1
+catch 2
+exception 2
+new 4
+import 1
+java 1
+out 5
+print 8
+printf 5 4 static 3
+final 1
+long 1
+interface 1 
+null 2 
+abstract 1 
+boolean 2 
+do 3
+util 1
+system 7
